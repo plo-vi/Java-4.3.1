@@ -5,11 +5,11 @@ import lombok.SneakyThrows;
 import repository.IssueRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class IssueManager {
-    private IssueRepository repository;
+    private final IssueRepository repository;
 
     public IssueManager(IssueRepository repository) {
         this.repository = repository;
@@ -58,23 +58,36 @@ public class IssueManager {
         if (issue.getMilestone().equalsIgnoreCase(search)) {
             return true;
         }
-        if (issue.getAssignee().equalsIgnoreCase(search)) {
-            return true;
+        return issue.getAssignee().equalsIgnoreCase(search);
+    }
+
+    public List<Issue> filterByPredicate(Predicate<Issue> filter) {
+        List<Issue> result = new ArrayList<>();
+        for (Issue issue : repository.findAll()) {
+            if (filter.test(issue)) {
+                result.add(issue);
+            }
         }
-        return false;
+        return result;
+    }
+
+    public List<Issue> filterByLabel(String label) {
+        return filterByPredicate(issue -> issue.getLabel().contains(label));
     }
 
     // Sorting
 
-    private class IssueComparatorByDate implements java.util.Comparator<Issue> {
+    private static class IssueComparatorByDate implements java.util.Comparator<Issue> {
         @Override
         public int compare(Issue i1, Issue i2) {
             return i2.getDate() - i1.getDate();
         }
+    }
 
+    private static class IssueComparatorByDateOld implements java.util.Comparator<Issue> {
         @Override
-        public Comparator<Issue> reversed() {
-            return null;
+        public int compare(Issue i1, Issue i2) {
+            return i1.getDate() - i2.getDate();
         }
     }
 
@@ -86,7 +99,7 @@ public class IssueManager {
 
     public List<Issue> sortByDateReverse() {
         List<Issue> result = this.getAll();
-        result.sort(new IssueComparatorByDate().reversed());
+        result.sort(new IssueComparatorByDateOld());
         return result;
     }
 

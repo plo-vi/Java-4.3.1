@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Nested;
 import repository.IssueRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -43,12 +42,12 @@ class CRUDIssueManagerTest {
             assertEquals(expected, actual);
         }
 
-//        @Test
-//        void shouldFilterByLabel() {
-//            List<Issue> actual = manager.filterByLabel("bug");
-//            List<Issue> expected = new ArrayList<>();
-//            assertEquals(expected, actual);
-//        }
+        @Test
+        void shouldFilterByLabel() {
+            List<Issue> actual = manager.filterByLabel("L5");
+            List<Issue> expected = new ArrayList<>();
+            assertEquals(expected, actual);
+        }
 
         @Test
         void shouldSortNothing() {
@@ -163,12 +162,12 @@ class CRUDIssueManagerTest {
             assertEquals(expected, actual);
         }
 
-//        @Test
-//        void shouldSortFromOld() {
-//            List<Issue> actual = manager.sortByDateReverse();
-//            List<Issue> expected = List.of(eighth, first, second, third, fourth, seventh, sixth, fifth);
-//            assertEquals(expected, actual);
-//        }
+        @Test
+        void shouldSortFromOld() {
+            List<Issue> actual = manager.sortByDateReverse();
+            List<Issue> expected = List.of(eighth, first, second, third, fourth, seventh, sixth, fifth);
+            assertEquals(expected, actual);
+        }
 
         // Searching
 
@@ -214,12 +213,12 @@ class CRUDIssueManagerTest {
             assertArrayEquals(expected, actual);
         }
 
-//        @Test
-//        void shouldFilterByLabel() {
-//            List<Issue> actual = manager.filterByLabel("in progress");
-//            List<Issue> expected = List.of(first, third);
-//            assertEquals(expected, actual);
-//        }
+        @Test
+        void shouldFilterByLabel() {
+            List<Issue> actual = manager.filterByLabel("L2");
+            List<Issue> expected = List.of(second);
+            assertEquals(expected, actual);
+        }
 
         // Closed-opened tricks
 
@@ -256,6 +255,13 @@ class CRUDIssueManagerTest {
             manager.closeIssue(1);
             boolean actual = repository.findById(1).isUpdate();
             assertEquals(false, actual);
+        }
+
+        @Test
+        void shouldOpenClosedIssue() {
+            manager.closeIssue(8);
+            boolean actual = repository.findById(1).isUpdate();
+            assertEquals(true, actual);
         }
     }
 }
