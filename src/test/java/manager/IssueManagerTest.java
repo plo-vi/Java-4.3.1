@@ -13,17 +13,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CRUDIssueManagerTest {
-    private IssueRepository repository = new IssueRepository();
-    private IssueManager manager = new IssueManager(repository);
+    private final IssueRepository repository = new IssueRepository();
+    private final IssueManager manager = new IssueManager(repository);
 
-    private Issue first = new Issue(1, "N1", 10, "A1", Set.of("L1"), "P1", "M1", "As1", true);
-    private Issue second = new Issue(2, "N1", 20, "A2", Set.of("L2", "L8"), "P2", "M2", "As2", true);
-    private Issue third = new Issue(3, "N3", 30, "A2", Set.of("L3"), "P3", "M3", "As3", true);
-    private Issue fourth = new Issue(4, "N4", 40, "A4", Set.of("L4"), "P3", "M4", "As4", true);
-    private Issue fifth = new Issue(5, "N5", 90,"A5", Set.of("L5"), "P5", "M4", "As5", true);
-    private Issue sixth = new Issue(6, "N6", 64,"A6", Set.of("L6"), "P6", "M6", "As5", true);
-    private Issue seventh = new Issue(7, "N7", 41,"A1", Set.of("L7"), "P1", "M1", "As1", false);
-    private Issue eighth = new Issue(8, "N8", 1,"A1", Set.of("L8"), "P1", "M1", "As1", false);
+    private final Issue first = new Issue(1, "N1", 10, "A1", Set.of("L1"), "P1", "M1", "As1", true);
+    private final Issue second = new Issue(2, "N1", 20, "A2", Set.of("L2", "L8"), "P2", "M2", "As2", true);
+    private final Issue third = new Issue(3, "N3", 30, "A2", Set.of("L3"), "P3", "M3", "As3", true);
+    private final Issue fourth = new Issue(4, "N4", 40, "A4", Set.of("L4"), "P3", "M4", "As4", true);
+    private final Issue fifth = new Issue(5, "N5", 90,"A5", Set.of("L5"), "P5", "M4", "As5", true);
+    private final Issue sixth = new Issue(6, "N6", 64,"A6", Set.of("L6"), "P6", "M6", "As5", true);
+    private final Issue seventh = new Issue(7, "N7", 41,"A1", Set.of("L7"), "P1", "M1", "As1", false);
+    private final Issue eighth = new Issue(8, "N8", 1,"A1", Set.of("L8"), "P1", "M1", "As1", false);
 
     @Nested
     public class Empty {
@@ -115,7 +115,7 @@ class CRUDIssueManagerTest {
         void shouldCloseIssue() {
             manager.closeIssue(1);
             boolean actual = repository.findById(1).isUpdate();
-            assertEquals(false, actual);
+            assertFalse(actual);
         }
 
         @Test
@@ -240,7 +240,7 @@ class CRUDIssueManagerTest {
         void shouldFindClosedIssueById() {
             manager.closeIssue(8);
             boolean actual = repository.findById(8).isUpdate();
-            assertEquals(false, actual);
+            assertFalse(actual);
         }
 
         @Test
@@ -254,7 +254,7 @@ class CRUDIssueManagerTest {
         void shouldCloseOpenedIssue() {
             manager.closeIssue(1);
             boolean actual = repository.findById(1).isUpdate();
-            assertEquals(false, actual);
+            assertFalse(actual);
         }
 
         @Test
